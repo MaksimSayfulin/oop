@@ -1,0 +1,7 @@
+cat|кот
+cat|кошка
+normal|нормально
+male|мужчина
+kitty|котенок
+female|женщина
+maleficent|зловредный

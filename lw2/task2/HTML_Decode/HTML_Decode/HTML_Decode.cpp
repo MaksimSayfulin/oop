@@ -2,7 +2,6 @@
 #include <vector>
 #include <algorithm>
 #include "HTML_Decode.h"
-#include <Windows.h>
 
 
 std::string ParseCommand(const std::string& command)

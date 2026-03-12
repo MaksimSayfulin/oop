@@ -27,10 +27,11 @@ TEST_CASE("Vector multiplication on min element") {
     REQUIRE_THROWS_AS(ProcessNumbers(vect), std::invalid_argument);
     vect = { 2., NAN, 3. };
     REQUIRE_THROWS_AS(ProcessNumbers(vect), std::invalid_argument);
-    // 2 * MIN_DOUBLE
-    vect = { 2., std::numeric_limits<double>::lowest(), 3. };
-    REQUIRE_THROWS_AS(ProcessNumbers(vect), std::out_of_range);
     // 2 * MAX_DOUBLE 
     vect = { 2., std::numeric_limits<double>::max(), 3. };
     REQUIRE_THROWS_AS(ProcessNumbers(vect), std::out_of_range);
+    // 2 * MIN_DOUBLE
+    vect = { 2., std::numeric_limits<double>::lowest(), 3. };
+    REQUIRE_THROWS_AS(ProcessNumbers(vect), std::out_of_range);
+    
 }

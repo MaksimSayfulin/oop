@@ -3,6 +3,9 @@
 #include <Windows.h>
 #include <string>
 
+const int UPPER_BOUND = 255;
+const int LOWER_BOUND = 0;
+
 enum class CoderMode
 {
     Crypt,
@@ -63,6 +66,19 @@ void CryptFile(std::istream& fin, std::ofstream& fout, uint8_t value, CoderMode 
     }
 }
 
+CoderMode ChooseMode(const std::string& modeStr)
+{
+    if (modeStr == "crypt") //func
+    {
+        return CoderMode::Crypt;
+    }
+    else if (modeStr == "decrypt")
+    {
+        return CoderMode::Decrypt;
+    }
+    return CoderMode::Uknown;
+}
+
 int main(int argCount, char* argVect[])
 {
     SetConsoleOutputCP(CP_UTF8);
@@ -77,42 +93,34 @@ int main(int argCount, char* argVect[])
     std::string modeStr = argVect[1];
     std::string inFilename = argVect[2], outFilename = argVect[3];
     uint8_t key;
-    try {
+    try 
+    {
         int temp_key = std::stoi(argVect[4]);
-        if (temp_key < 0 || temp_key > 255)
+        if (temp_key < LOWER_BOUND || temp_key > UPPER_BOUND) //const
         {
             std::cerr << "Key should be an integer in range [0, 255]" << std::endl;
             return 1;
         }
         key = static_cast<uint8_t>(temp_key);
     }
-    catch (const std::exception& e) {
+    catch (const std::exception& e) 
+    {
         std::cerr << "Key should be an integer in range [0, 255]" << std::endl;
         return 1;
     }
-    CoderMode mode = CoderMode::Uknown;
+    CoderMode mode = ChooseMode(modeStr);
     
-    if (modeStr == "crypt")
+    if (mode == CoderMode::Uknown)
     {
-        mode = CoderMode::Crypt;
+        std::cerr << "Usage: crypt.exe crypt|decrypt <input file> <output file> <key> askjcbsakjcb" << std::endl;
+        return 1;
     }
-    else if (modeStr == "decrypt")
-    {
-        mode = CoderMode::Decrypt;
-    }
-
     std::ifstream fin(inFilename, std::ios::binary);
     std::ofstream fout(outFilename, std::ios::binary);
 
     if (!fin.is_open() || !fout.is_open())
     {
         std::cerr << "Can't open input or output file" << std::endl;
-        return 1;
-    }
-
-    if (mode == CoderMode::Uknown)
-    {
-        std::cerr << "Usage: crypt.exe crypt|decrypt <input file> <output file> <key> askjcbsakjcb" << std::endl;
         return 1;
     }
     

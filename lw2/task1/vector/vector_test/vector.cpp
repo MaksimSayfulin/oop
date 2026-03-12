@@ -26,10 +26,10 @@ std::vector<double> ProcessNumbers(const std::vector<double>& vectIn)
 		{
 			throw std::invalid_argument("Invalid argument");
 		}
-		/*if (vect[i] >= std::numeric_limits<double>::lowest() / minElement || vect[i] > std::numeric_limits<double>::max() / minElement)
+		if (vect[i] > abs(std::numeric_limits<double>::lowest() / minElement) || vect[i] > abs(std::numeric_limits<double>::max() / minElement))
 		{
 			throw std::out_of_range("Out of range");
-		}*/
+		}
 
 		vect[i] *= minElement;
 	}
